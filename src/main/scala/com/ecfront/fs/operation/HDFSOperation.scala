@@ -55,7 +55,7 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
 
   override protected def _seekFile(path: String): FileInfo = {
     val file = fs.getFileStatus(new Path(path))
-    FileInfo(file.getPath.getName, path, file.getLen(), file.getModificationTime)
+    FileInfo(file.getPath.getName, path, file.getLen, file.getModificationTime)
   }
 
   override protected def _deleteFile(path: String): Unit = {
@@ -67,7 +67,7 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
     fs.listStatus(new Path(path)).foreach {
       file =>
         if (file.isFile) {
-          fileInfo += FileInfo(file.getPath.getName, formatDirPath(path) + file.getPath.getName, file.getLen(), file.getModificationTime)
+          fileInfo += FileInfo(file.getPath.getName, formatDirPath(path) + file.getPath.getName, file.getLen, file.getModificationTime)
         }
     }
     fileInfo.toArray

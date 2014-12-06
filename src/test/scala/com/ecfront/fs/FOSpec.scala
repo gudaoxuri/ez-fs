@@ -12,7 +12,7 @@ class FOSpec extends FunSuite {
   test("本地文件系统操作测试") {
 
     var testPath = this.getClass.getResource("/").getPath
-    if (System.getProperties().getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
+    if (System.getProperties.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
       testPath = testPath.substring(1)
     }
 
@@ -20,25 +20,25 @@ class FOSpec extends FunSuite {
 
     fo.createDir(testPath + "tmp")
 
-    assert(fo.existDir(testPath + "tmp") == true)
+    assert(fo.existDir(testPath + "tmp"))
 
     fo.deleteDir(testPath + "tmp")
 
-    assert(fo.existDir(testPath + "tmp") == false)
+    assert(!fo.existDir(testPath + "tmp") )
 
-    assert(fo.existFile(testPath + "a.txt") == true)
-    assert(fo.existFile(testPath + "c.txt") == false)
+    assert(!fo.existFile(testPath + "a.txt"))
+    assert(!fo.existFile(testPath + "c.txt") )
 
-    assert(fo.isFile(testPath + "b.txt") == true)
-    assert(fo.isFile(testPath + "testdir") == false)
+    assert(fo.isFile(testPath + "b.txt"))
+    assert(!fo.isFile(testPath + "testdir"))
 
     fo.moveFile(testPath + "a.txt", testPath + "testdir" + File.separator + "a.txt")
-    assert(fo.existFile(testPath + "a.txt") == false)
-    assert(fo.existFile(testPath + "testdir" + File.separator + "a.txt") == true)
+    assert(fo.existFile(testPath + "a.txt") )
+    assert(fo.existFile(testPath + "testdir" + File.separator + "a.txt"))
     fo.moveFile(testPath + "testdir" + File.separator + "a.txt", testPath + "a.txt")
 
     fo.moveDir(testPath + "testdir2", testPath + "testdir" + File.separator + "testdir2")
-    assert(fo.existFile(testPath + "testdir" + File.separator + "testdir2" + File.separator + "c.txt") == true)
+    assert(fo.existFile(testPath + "testdir" + File.separator + "testdir2" + File.separator + "c.txt"))
     fo.moveDir(testPath + "testdir" + File.separator + "testdir2", testPath + File.separator + "testdir2")
 
     val fList = fo.seekDir(testPath)
@@ -59,14 +59,14 @@ class FOSpec extends FunSuite {
 
     fo.createDir(testPath + "tmp")
 
-    assert(fo.existDir(testPath + "tmp") == true)
+    assert(fo.existDir(testPath + "tmp"))
 
     fo.deleteDir(testPath + "tmp")
 
-    assert(fo.existDir(testPath + "tmp") == false)
+    assert(!fo.existDir(testPath + "tmp"))
 
-    assert(fo.existFile(testPath + "a.txt") == true)
-    assert(fo.existFile(testPath + "c.txt") == false)
+    assert(fo.existFile(testPath + "a.txt"))
+    assert(!fo.existFile(testPath + "c.txt") )
 
     /*assert(fo.isFile(testPath + "b.txt") == true)
     assert(fo.isFile(testPath + "testdir") == false)*/
@@ -98,25 +98,25 @@ class FOSpec extends FunSuite {
 
     fo.createDir(testPath + "tmp")
 
-    assert(fo.existDir(testPath + "tmp") == true)
+    assert(fo.existDir(testPath + "tmp"))
 
     fo.deleteDir(testPath + "tmp")
 
-    assert(fo.existDir(testPath + "tmp") == false)
+    assert(!fo.existDir(testPath + "tmp"))
 
-    assert(fo.existFile(testPath + "a.txt") == true)
-    assert(fo.existFile(testPath + "c.txt") == false)
+    assert(fo.existFile(testPath + "a.txt"))
+    assert(!fo.existFile(testPath + "c.txt"))
 
-    assert(fo.isFile(testPath + "b.txt") == true)
-    assert(fo.isFile(testPath + "testdir") == false)
+    assert(fo.isFile(testPath + "b.txt") )
+    assert(!fo.isFile(testPath + "testdir") )
 
     fo.moveFile(testPath + "a.txt", testPath + "testdir" + File.separator + "a.txt")
-    assert(fo.existFile(testPath + "a.txt") == false)
-    assert(fo.existFile(testPath + "testdir" + File.separator + "a.txt") == true)
+    assert(!fo.existFile(testPath + "a.txt"))
+    assert(fo.existFile(testPath + "testdir" + File.separator + "a.txt") )
     fo.moveFile(testPath + "testdir" + File.separator + "a.txt", testPath + "a.txt")
 
     fo.moveDir(testPath + "testdir2", testPath + "testdir" + File.separator + "testdir2")
-    assert(fo.existFile(testPath + "testdir" + File.separator + "testdir2" + File.separator + "c.txt") == true)
+    assert(fo.existFile(testPath + "testdir" + File.separator + "testdir2" + File.separator + "c.txt"))
     fo.moveDir(testPath + "testdir" + File.separator + "testdir2", testPath + File.separator + "testdir2")
 
     val fList = fo.seekDir(testPath)

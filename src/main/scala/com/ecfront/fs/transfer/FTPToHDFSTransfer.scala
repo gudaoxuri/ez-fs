@@ -11,12 +11,13 @@ class FTPToHDFSTransfer(ftpClient: FTPClient, hdfsConf: Configuration) extends F
   override protected def _transfer(sourcePath: String, targetPath: String): Boolean = {
     val tFtpFiles: Array[FTPFile] = ftpClient.listFiles(sourcePath)
     if (null == tFtpFiles || tFtpFiles.length == 0) {
-      return false
+      false
+    }else{
+      val outputStream: FSDataOutputStream = FileSystem.get(hdfsConf).create(new Path(targetPath))
+      ftpClient.retrieveFile(sourcePath, outputStream)
+      outputStream.close()
+      true
     }
-    val outputStream: FSDataOutputStream = FileSystem.get(hdfsConf).create(new Path(targetPath))
-    ftpClient.retrieveFile(sourcePath, outputStream)
-    outputStream.close
-    return true
   }
 
 }
@@ -27,10 +28,10 @@ object FTPToHDFSTransfer {
   def apply(ftpClient: FTPClient, hdfsConf: Configuration) = new FTPToHDFSTransfer(ftpClient, hdfsConf)
 
   def apply(host: String, port: Int, userName: String, password: String) = {
-    new FTPToHDFSTransfer(FTPOperation(host, port, userName, password).getFTPClient(), new Configuration)
+    new FTPToHDFSTransfer(FTPOperation(host, port, userName, password).getFTPClient, new Configuration)
   }
 
   def apply(host: String, port: Int, userName: String, password: String, hdfsConf: Configuration) = {
-    new FTPToHDFSTransfer(FTPOperation(host, port, userName, password).getFTPClient(), hdfsConf)
+    new FTPToHDFSTransfer(FTPOperation(host, port, userName, password).getFTPClient, hdfsConf)
   }
 }

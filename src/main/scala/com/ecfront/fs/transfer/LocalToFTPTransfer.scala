@@ -18,16 +18,15 @@ class LocalToFTPTransfer(ftpClient: FTPClient) extends FSTransfer {
     var iStream: InputStream = null
     try {
       iStream = new FileInputStream(sourcePath)
-      return ftpClient.storeFile(targetPath, iStream)
+      ftpClient.storeFile(targetPath, iStream)
     }
     catch {
-      case e: IOException => {
+      case e: IOException =>
         logger.error("Upload error.", e)
-        return false
-      }
+        false
     } finally {
       if (iStream != null) {
-        iStream.close
+        iStream.close()
       }
     }
   }
@@ -37,6 +36,6 @@ object LocalToFTPTransfer {
   def apply(ftpClient: FTPClient) = new LocalToFTPTransfer(ftpClient)
 
   def apply(host: String, port: Int, userName: String, password: String) = {
-    new LocalToFTPTransfer(FTPOperation(host, port, userName, password).getFTPClient())
+    new LocalToFTPTransfer(FTPOperation(host, port, userName, password).getFTPClient)
   }
 }

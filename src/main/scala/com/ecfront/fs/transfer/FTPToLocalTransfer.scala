@@ -13,13 +13,13 @@ class FTPToLocalTransfer(ftpClient: FTPClient) extends FSTransfer {
     var oStream: OutputStream = null
     try {
       oStream = new FileOutputStream(outfile)
-      return ftpClient.retrieveFile(sourcePath, oStream)
+      ftpClient.retrieveFile(sourcePath, oStream)
     }
     catch {
       case e: IOException =>
         logger.error("Download error.", e)
-        return false
-    } finally oStream.close
+        false
+    } finally oStream.close()
   }
 }
 
@@ -28,6 +28,6 @@ object FTPToLocalTransfer {
   def apply(ftpClient: FTPClient) = new FTPToLocalTransfer(ftpClient)
 
   def apply(host: String, port: Int, userName: String, password: String) = {
-    new FTPToLocalTransfer(FTPOperation(host, port, userName, password).getFTPClient())
+    new FTPToLocalTransfer(FTPOperation(host, port, userName, password).getFTPClient)
   }
 }

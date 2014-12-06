@@ -11,18 +11,18 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
   ftpClient.login(userName, password)
   ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
   if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode)) {
-    ftpClient.disconnect
+    ftpClient.disconnect()
     logger.error("connect error.")
   }
 
-  def getFTPClient() = {
+  def getFTPClient = {
     ftpClient
   }
 
   /**
    * 设置编码
    *
-   * @param encoding
+   * @param encoding 编码类型
    */
   def setEncoding(encoding: String) {
     ftpClient.setControlEncoding(encoding)
@@ -32,10 +32,10 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
    * 关闭FTP连接
    *
    */
-  def close {
+  def close() {
     ftpClient.logout
     if (ftpClient.isConnected) {
-      ftpClient.disconnect
+      ftpClient.disconnect()
     }
   }
 
@@ -60,7 +60,7 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
     ftpClient.listFiles(path).foreach {
       file =>
         if (file.isFile) {
-          fileInfo += FileInfo(file.getName, formatDirPath(path) + file.getName, file.getSize(), if (file.getTimestamp != null) file.getTimestamp.getTimeInMillis else 0)
+          fileInfo += FileInfo(file.getName, formatDirPath(path) + file.getName, file.getSize, if (file.getTimestamp != null) file.getTimestamp.getTimeInMillis else 0)
         }
     }
     fileInfo.toArray
@@ -68,7 +68,7 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
 
   override protected def _seekFile(path: String): FileInfo = {
     val file = ftpClient.listFiles(path)(0)
-    FileInfo(file.getName,path, file.getSize(), file.getTimestamp.getTimeInMillis)
+    FileInfo(file.getName,path, file.getSize, file.getTimestamp.getTimeInMillis)
   }
 
   override protected def _existDir(path: String): Boolean = {
