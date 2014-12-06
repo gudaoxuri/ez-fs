@@ -1,66 +1,58 @@
-EZ RPC
+EZ FS
 ===
-### 基于netty的RPC封装，目前只支持Restful HTTP方式
+### 实现Local、FTP、HDFS文件系统的统一操作。
 
  =======================================================
+
+## 支持的操作
+1 创建目录
+1 删除目录
+1 移动目录
+1 删除文件
+1 移动文件
+1 获取目录下的文件信息列表
+1 获取单个文件信息
+1 判断目录是否存在
+1 判断文件是否存在
+1 判断指定路径是否是文件
+1 Local To FTP 的文件传输
+1 Local To HDFS 的文件传输
+1 FTP To HDFS 的文件传输
+1 FTP To Local 的文件传输
+1 HDFS To Local 的文件传输
 
 ##使用
 
     <dependency>
         <groupId>com.ecfront</groupId>
-        <artifactId>rpc</artifactId>
+        <artifactId>fs</artifactId>
         <version>0.1</version>
     </dependency>
 
-###HTTP服务
+** 需要操作HDFS时需要将对应的 `core-site.xml`,`hdfs-site.xml`放在classpath下！
 
-    //启动HTTP服务
-    HttpServer.startup(<端口>)
+两个接口：`FSOperation` 用于对单一文件系统的操作，`FSTransfer` 用于两个文件系统间的文件传输。
 
-    //注册业务方法
-    Register.<get|post|put|delete>("<URI>", <业务方法>)
+###示例（更多示例见测试代码）
 
-    //关闭HTTP服务
-    HttpServer.destroy
+    //创建本文件
+    val fo = HDFSOperation(new Configuration())
+    //创建目录
+    fo.createDir("/test/tmp")
+    //移动文件
+    fo.moveFile("/test/a.txt", "/tmp/a.txt")
+    //获取目录下的文件信息
+    val fList = fo.seekDir(testPath)
 
-###HTTP请求
+    //从FTP上传输文件到HDFS
+     FTPToHDFSTransfer("127.0.0.1", 21, "sa", "sa").transfer("/a.txt", "/test/a.txt")
 
-    //初始一个客户端实例
-    val client = new HttpClient
-    //发起一个请求，返回HttpResult对象，result.code为200表示成功，反之为失败
-    val result = client.<get|post|put|delete>("<URI>", classOf[<返回对象类型>])
-
-
-##示例（更多示例见测试代码）
-
-     HttpServer.startup(3000)
-
-     Register.get("/user/:id/", new SimpleFun {
-       override def execute(parameters: Map[String, String], body: String, cookies: Set[Cookie]): HttpResult[_] = {
-         HttpResult.success[String](parameters.get("arg").get)
-       }
-     })
-
-     Register.post("/user/", new Fun[Person](classOf[Person]) {
-       override def execute(parameters: Map[String, String], body: Person, cookies: Set[Cookie]): HttpResult[_] = {
-         HttpResult.success[Person](body)
-       }
-     })
-
-     val client = new HttpClient
-     val result1 = client.get("http://127.0.0.1:3000/user/100/?arg=测试", classOf[String])
-     val result2 = client.post("http://127.0.0.1:3000/user/", Person("孤岛旭日",Address("HangZhou")), classOf[Person])
-
-     HttpServer.destroy
-
-     case class Person(var name: String,var address:Address)
-     case class Address(var addr: String)
 
 =======================================================
 
 
 ### Check out sources
-`git clone https://github.com/gudaoxuri/ez-rpc.git`
+`git clone https://github.com/gudaoxuri/ez-fs.git`
 
 ### License
 

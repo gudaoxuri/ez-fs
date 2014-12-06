@@ -181,5 +181,11 @@ trait FSOperation extends LazyLogging {
 
 }
 
-
+/**
+ * 文件信息类
+ * @param name 文件名
+ * @param path 文件全路径
+ * @param size 文件大小
+ * @param changeTime 修改时间
+ */
 case class FileInfo(name: String, path: String, size: Long, changeTime: Long)
