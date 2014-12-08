@@ -51,9 +51,13 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
     ftpClient.deleteFile(path)
   }
 
-  override protected def _moveDir(sourcePath: String, targetPath: String): Unit = ???
+  override protected def _moveDir(sourcePath: String, targetPath: String): Unit = {
+    ftpClient.rename(sourcePath,targetPath)
+  }
 
-  override protected def _moveFile(sourcePath: String, targetPath: String): Unit = ???
+  override protected def _moveFile(sourcePath: String, targetPath: String): Unit = {
+    ftpClient.rename(sourcePath,targetPath)
+  }
 
   override protected def _seekDir(path: String): Array[FileInfo] = {
     val fileInfo = new ArrayBuffer[FileInfo]()

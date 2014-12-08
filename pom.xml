@@ -10,7 +10,7 @@
     <description>文件操作模块</description>
     <url>https://github.com/gudaoxuri/ez-fs</url>
     <packaging>jar</packaging>
-    <version>0.2</version>
+    <version>0.2.4</version>
 
     <licenses>
         <license>
