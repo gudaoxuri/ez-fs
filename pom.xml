@@ -10,7 +10,7 @@
     <description>文件操作模块</description>
     <url>https://github.com/gudaoxuri/ez-fs</url>
     <packaging>jar</packaging>
-    <version>0.2.5</version>
+    <version>0.3</version>
 
     <licenses>
         <license>
@@ -35,7 +35,7 @@
     </scm>
 
     <properties>
-        <ez-common.version>0.2.1</ez-common.version>
+        <ez-common.version>0.2.2</ez-common.version>
         <common-lang3.version>3.3.2</common-lang3.version>
         <hadoop-client.version>2.4.0</hadoop-client.version>
     </properties>

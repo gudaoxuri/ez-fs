@@ -6,24 +6,29 @@ import java.nio.file.{Files, Paths}
 
 class LocalOperation extends FSOperation {
 
-  override protected def _createDir(path: String): Unit = {
+  override protected def _createDir(path: String): Boolean = {
     Files.createDirectory(Paths.get(path))
+    true
   }
 
-  override protected def _deleteDir(path: String): Unit = {
+  override protected def _deleteDir(path: String): Boolean = {
     Files.delete(Paths.get(path))
+    true
   }
 
-  override protected def _deleteFile(path: String): Unit = {
+  override protected def _deleteFile(path: String): Boolean = {
     Files.delete(Paths.get(path))
+    true
   }
 
-  override protected def _moveDir(sourcePath: String, targetPath: String): Unit = {
+  override protected def _moveDir(sourcePath: String, targetPath: String): Boolean = {
     Files.move(Paths.get(sourcePath), Paths.get(targetPath))
+    true
   }
 
-  override protected def _moveFile(sourcePath: String, targetPath: String): Unit = {
+  override protected def _moveFile(sourcePath: String, targetPath: String): Boolean = {
     Files.move(Paths.get(sourcePath), Paths.get(targetPath))
+    true
   }
 
   override protected def _seekDir(path: String): Array[FileInfo] = {

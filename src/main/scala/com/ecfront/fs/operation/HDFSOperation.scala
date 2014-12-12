@@ -9,11 +9,11 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
 
   private val fs = FileSystem.get(conf)
 
-  override protected def _createDir(path: String): Unit = {
+  override protected def _createDir(path: String): Boolean = {
     fs.mkdirs(new Path(path))
   }
 
-  override protected def _moveDir(sourcePath: String, targetPath: String): Unit = {
+  override protected def _moveDir(sourcePath: String, targetPath: String): Boolean = {
     val dir: String = targetPath.substring(0, targetPath.lastIndexOf('/'))
     if (!existDir(dir)) {
       createDir(dir)
@@ -25,7 +25,7 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
     fs.isFile(new Path(path))
   }
 
-  override protected def _deleteDir(path: String): Unit = {
+  override protected def _deleteDir(path: String): Boolean = {
     fs.delete(new Path(path), true)
   }
 
@@ -45,7 +45,7 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
     }
   }
 
-  override protected def _moveFile(sourcePath: String, targetPath: String): Unit = {
+  override protected def _moveFile(sourcePath: String, targetPath: String): Boolean = {
     val dir: String = targetPath.substring(0, targetPath.lastIndexOf('/'))
     if (!existDir(dir)) {
       createDir(dir)
@@ -58,7 +58,7 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
     FileInfo(file.getPath.getName, path, file.getLen, file.getModificationTime)
   }
 
-  override protected def _deleteFile(path: String): Unit = {
+  override protected def _deleteFile(path: String): Boolean = {
     FileSystem.get(conf).delete(new Path(path), true)
   }
 

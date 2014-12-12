@@ -18,14 +18,13 @@ trait FSOperation extends LazyLogging {
    */
   def createDir(path: String): Boolean = try {
     _createDir(path)
-    true
   } catch {
     case e: Exception =>
       logger.error("Create dir[" + path + "] error.", e)
       false
   }
 
-  protected def _createDir(path: String): Unit
+  protected def _createDir(path: String): Boolean
 
   /**
    * 删除目录
@@ -34,14 +33,13 @@ trait FSOperation extends LazyLogging {
    */
   def deleteDir(path: String): Boolean = try {
     _deleteDir(path)
-    true
   } catch {
     case e: Exception =>
       logger.error("Delete dir[" + path + "] error.", e)
       false
   }
 
-  protected def _deleteDir(path: String): Unit
+  protected def _deleteDir(path: String): Boolean
 
   /**
    * 删除文件
@@ -50,14 +48,13 @@ trait FSOperation extends LazyLogging {
    */
   def deleteFile(path: String): Boolean = try {
     _deleteFile(path)
-    true
   } catch {
     case e: Exception =>
       logger.error("Delete file[" + path + "] error.", e)
       false
   }
 
-  protected def _deleteFile(path: String): Unit
+  protected def _deleteFile(path: String): Boolean
 
   /**
    * 移动目录
@@ -66,14 +63,13 @@ trait FSOperation extends LazyLogging {
    */
   def moveDir(sourcePath: String, targetPath: String): Boolean = try {
     _moveDir(sourcePath, targetPath)
-    true
   } catch {
     case e: Exception =>
       logger.error("Move dir[" + sourcePath + "] to [" + targetPath + "] error.", e)
       false
   }
 
-  protected def _moveDir(sourcePath: String, targetPath: String): Unit
+  protected def _moveDir(sourcePath: String, targetPath: String): Boolean
 
   /**
    * 移动文件
@@ -82,14 +78,13 @@ trait FSOperation extends LazyLogging {
    */
   def moveFile(sourcePath: String, targetPath: String): Boolean = try {
     _moveFile(sourcePath, targetPath)
-    true
   } catch {
     case e: Exception =>
       logger.error("Move file[" + sourcePath + "] to [" + targetPath + "] error.", e)
       false
   }
 
-  protected def _moveFile(sourcePath: String, targetPath: String): Unit
+  protected def _moveFile(sourcePath: String, targetPath: String): Boolean
 
   /**
    * 获取目录下的文件信息列表

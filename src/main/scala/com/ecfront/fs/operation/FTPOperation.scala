@@ -7,12 +7,13 @@ import scala.collection.mutable.ArrayBuffer
 class FTPOperation(host: String, port: Int, userName: String, password: String) extends FSOperation {
 
   private val ftpClient = new FTPClient
+  ftpClient.enterLocalPassiveMode()
   ftpClient.connect(host, port)
   ftpClient.login(userName, password)
   ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
   if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode)) {
     ftpClient.disconnect()
-    logger.error("connect error.")
+    logger.error("Connect error.")
   }
 
   def getFTPClient = {
@@ -39,24 +40,49 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
     }
   }
 
-  override protected def _createDir(path: String): Unit = {
-    ftpClient.makeDirectory(path)
+  override protected def _createDir(path: String): Boolean = {
+    if (ftpClient.makeDirectory(path)) {
+      true
+    } else {
+      logger.error("Create dir[" + path + "]  error:" + ftpClient.getReplyString)
+      false
+    }
   }
 
-  override protected def _deleteDir(path: String): Unit = {
-    ftpClient.removeDirectory(path)
+  override protected def _deleteDir(path: String): Boolean = {
+    if (ftpClient.removeDirectory(path)) {
+      true
+    } else {
+      logger.error("Delete dir[" + path + "]  error:" + ftpClient.getReplyString)
+      false
+    }
   }
 
-  override protected def _deleteFile(path: String): Unit = {
-    ftpClient.deleteFile(path)
+  override protected def _deleteFile(path: String): Boolean = {
+    if (ftpClient.deleteFile(path)) {
+      true
+    } else {
+      logger.error("Delete file[" + path + "]  error:" + ftpClient.getReplyString)
+      false
+    }
   }
 
-  override protected def _moveDir(sourcePath: String, targetPath: String): Unit = {
-    ftpClient.rename(sourcePath,targetPath)
+  override protected def _moveDir(sourcePath: String, targetPath: String): Boolean = {
+    if (ftpClient.rename(sourcePath, targetPath)) {
+      true
+    } else {
+      logger.error("Move dir[" + sourcePath + "] to [" + targetPath + "] error:" + ftpClient.getReplyString)
+      false
+    }
   }
 
-  override protected def _moveFile(sourcePath: String, targetPath: String): Unit = {
-    ftpClient.rename(sourcePath,targetPath)
+  override protected def _moveFile(sourcePath: String, targetPath: String): Boolean = {
+    if (ftpClient.rename(sourcePath, targetPath)) {
+      true
+    } else {
+      logger.error("Move dir[" + sourcePath + "] to [" + targetPath + "] error:" + ftpClient.getReplyString)
+      false
+    }
   }
 
   override protected def _seekDir(path: String): Array[FileInfo] = {
@@ -67,27 +93,49 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
           fileInfo += FileInfo(file.getName, formatDirPath(path) + file.getName, file.getSize, if (file.getTimestamp != null) file.getTimestamp.getTimeInMillis else 0)
         }
     }
-    fileInfo.toArray
+    if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode)) {
+      fileInfo.toArray
+    } else {
+      logger.error("Seek dir[" + path + "] error:" + ftpClient.getReplyString)
+      null
+    }
   }
 
   override protected def _seekFile(path: String): FileInfo = {
     val file = ftpClient.listFiles(path)(0)
-    FileInfo(file.getName,path, file.getSize, file.getTimestamp.getTimeInMillis)
+    if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode)) {
+      FileInfo(file.getName, path, file.getSize, file.getTimestamp.getTimeInMillis)
+    } else {
+      logger.error("Seek file[" + path + "] error:" + ftpClient.getReplyString)
+      null
+    }
   }
 
   override protected def _existDir(path: String): Boolean = {
     val pathName = path.substring(path.lastIndexOf(separator) + 1)
-    ftpClient.listFiles(getParentPath(path)).exists {
+    val result = ftpClient.listFiles(getParentPath(path)).exists {
       item =>
         item.isDirectory && item.getName == pathName
+    }
+    if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode)) {
+      result
+    } else {
+      logger.error("Check exist dir[" + path + "] error:" + ftpClient.getReplyString)
+      false
     }
   }
 
   override protected def _existFile(path: String): Boolean = {
     val pathName = path.substring(path.lastIndexOf(separator) + 1)
-    ftpClient.listFiles(getParentPath(path)).exists {
+    val result = ftpClient.listFiles(getParentPath(path)).exists {
       item =>
         item.isFile && item.getName == pathName
+    }
+    if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode)) {
+      result
+    } else {
+      logger.error("Check exist file[" + path + "] error:" + ftpClient.getReplyString)
+      false
     }
   }
 
