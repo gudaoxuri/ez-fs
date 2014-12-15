@@ -9,12 +9,13 @@ import org.apache.hadoop.fs.{FSDataOutputStream, FileSystem, Path}
 class FTPToHDFSTransfer(ftpClient: FTPClient, hdfsConf: Configuration) extends FSTransfer {
 
   override protected def _transfer(sourcePath: String, targetPath: String): Boolean = {
-    val tFtpFiles: Array[FTPFile] = ftpClient.listFiles(sourcePath)
+    val fPath = if (sourcePath.startsWith("/")) sourcePath.substring(1) else sourcePath
+    val tFtpFiles: Array[FTPFile] = ftpClient.listFiles(fPath)
     if (null == tFtpFiles || tFtpFiles.length == 0) {
       false
-    }else{
+    } else {
       val outputStream: FSDataOutputStream = FileSystem.get(hdfsConf).create(new Path(targetPath))
-      ftpClient.retrieveFile(sourcePath, outputStream)
+      ftpClient.retrieveFile(fPath, outputStream)
       outputStream.close()
       true
     }

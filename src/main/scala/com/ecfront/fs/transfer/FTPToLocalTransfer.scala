@@ -13,7 +13,8 @@ class FTPToLocalTransfer(ftpClient: FTPClient) extends FSTransfer {
     var oStream: OutputStream = null
     try {
       oStream = new FileOutputStream(outfile)
-      ftpClient.retrieveFile(sourcePath, oStream)
+      val fPath= if (sourcePath.startsWith("/")) sourcePath.substring(1) else sourcePath
+      ftpClient.retrieveFile(fPath, oStream)
     }
     catch {
       case e: IOException =>
