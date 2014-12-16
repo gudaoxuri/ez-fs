@@ -21,6 +21,7 @@ EZ FS
 * FTP To HDFS 的文件传输
 * FTP To Local 的文件传输
 * HDFS To Local 的文件传输
+* HDFS To FTP 的文件传输
 
 ##使用
 

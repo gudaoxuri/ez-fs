@@ -28,6 +28,7 @@ class FTSpec extends FunSuite {
 
     transfer(hdfsPath, localPath, HDFSToLocalTransfer(), localFo)
 
+    transfer(hdfsPath,ftpPath,  HDFSToFTPTransfer(ftpClient), dhfsFo)
   }
 
   def transfer(sourcePath: String, targetPath: String, ft: FSTransfer, fo: FSOperation): Unit = {
