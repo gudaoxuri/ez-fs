@@ -10,7 +10,7 @@
     <description>文件操作模块</description>
     <url>https://github.com/gudaoxuri/ez-fs</url>
     <packaging>jar</packaging>
-    <version>0.5</version>
+    <version>0.6</version>
 
     <licenses>
         <license>
@@ -35,9 +35,10 @@
     </scm>
 
     <properties>
-        <ez-common.version>0.2.3</ez-common.version>
+        <ez-common.version>0.2.4</ez-common.version>
         <common-lang3.version>3.3.2</common-lang3.version>
         <hadoop-client.version>2.4.0</hadoop-client.version>
+        <jsch.version>0.1.51</jsch.version>
     </properties>
 
     <dependencies>
@@ -50,6 +51,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${common-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>${jsch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
