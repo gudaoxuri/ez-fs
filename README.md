@@ -28,10 +28,10 @@ EZ FS
     <dependency>
         <groupId>com.ecfront</groupId>
         <artifactId>fs</artifactId>
-        <version>0.2.4</version>
+        <version>0.8</version>
     </dependency>
 
-** 需要操作HDFS时需要将对应的 `core-site.xml`,`hdfs-site.xml`放在classpath下！
+*需要操作HDFS时需要将对应的 `core-site.xml`,`hdfs-site.xml`放在classpath下！*
 
 两个接口：`FSOperation` 用于对单一文件系统的操作，`FSTransfer` 用于两个文件系统间的文件传输。
 
