@@ -27,8 +27,8 @@ EZ FS
 
     <dependency>
         <groupId>com.ecfront</groupId>
-        <artifactId>fs</artifactId>
-        <version>0.8</version>
+        <artifactId>ez-fs</artifactId>
+        <version>0.9</version>
     </dependency>
 
 *需要操作HDFS时需要将对应的 `core-site.xml`,`hdfs-site.xml`放在classpath下！*
