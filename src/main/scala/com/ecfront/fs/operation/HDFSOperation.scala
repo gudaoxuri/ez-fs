@@ -1,7 +1,7 @@
 package com.ecfront.fs.operation
 
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -51,6 +51,14 @@ class HDFSOperation(conf: Configuration) extends FSOperation {
       createDir(dir)
     }
     fs.rename(new Path(sourcePath), new Path(targetPath))
+  }
+
+  override protected def _copyFile(sourcePath: String, targetPath: String): Boolean = {
+    val dir: String = targetPath.substring(0, targetPath.lastIndexOf('/'))
+    if (!existDir(dir)) {
+      createDir(dir)
+    }
+    FileUtil.copy(fs, new Path(sourcePath), fs, new Path(targetPath), true, conf)
   }
 
   override protected def _seekFile(path: String): FileInfo = {

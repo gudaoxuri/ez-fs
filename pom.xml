@@ -7,16 +7,15 @@
     <parent>
         <groupId>com.ecfront</groupId>
         <artifactId>ez-parent</artifactId>
-        <version>0.1</version>
+        <version>0.1.8</version>
     </parent>
 
-    <groupId>com.ecfront</groupId>
     <artifactId>ez-fs</artifactId>
     <name>EZ FS</name>
     <description>文件操作模块</description>
     <url>https://github.com/gudaoxuri/ez-fs</url>
     <packaging>jar</packaging>
-    <version>0.9</version>
+    <version>1.0</version>
 
     <scm>
         <connection>scm:git:git@github.com:gudaoxuri/ez-fs.git</connection>
@@ -25,10 +24,10 @@
     </scm>
 
     <properties>
-        <ez-common.version>0.3.2</ez-common.version>
-        <common-lang3.version>3.3.2</common-lang3.version>
-        <hadoop-client.version>2.4.0</hadoop-client.version>
-        <jsch.version>0.1.51</jsch.version>
+        <ez-common.version>0.6.8</ez-common.version>
+        <common-lang3.version>3.4</common-lang3.version>
+        <hadoop-client.version>2.7.2</hadoop-client.version>
+        <jsch.version>0.1.53</jsch.version>
     </properties>
 
     <dependencies>

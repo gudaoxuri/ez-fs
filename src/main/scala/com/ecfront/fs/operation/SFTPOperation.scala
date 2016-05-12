@@ -60,6 +60,8 @@ class SFTPOperation(host: String, port: Int, userName: String, password: String)
 
   override protected def _moveFile(sourcePath: String, targetPath: String): Boolean = ???
 
+  override protected def _copyFile(sourcePath: String, targetPath: String): Boolean = ???
+
   override protected def _deleteFile(path: String): Boolean = ???
 }
 

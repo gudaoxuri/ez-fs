@@ -1,6 +1,7 @@
 package com.ecfront.fs.operation
 
 import org.apache.commons.net.ftp.{FTP, FTPClient, FTPReply}
+import org.apache.commons.net.io.Util
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -21,18 +22,18 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
   }
 
   /**
-   * 设置编码
-   *
-   * @param encoding 编码类型
-   */
+    * 设置编码
+    *
+    * @param encoding 编码类型
+    */
   def setEncoding(encoding: String) {
     ftpClient.setControlEncoding(encoding)
   }
 
   /**
-   * 关闭FTP连接
-   *
-   */
+    * 关闭FTP连接
+    *
+    */
   def close() {
     ftpClient.logout
     if (ftpClient.isConnected) {
@@ -76,6 +77,23 @@ class FTPOperation(host: String, port: Int, userName: String, password: String) 
       true
     } else {
       logger.error("Move dir[" + sourcePath + "] to [" + targetPath + "] error:" + ftpClient.getReplyString)
+      false
+    }
+  }
+
+  override protected def _copyFile(sourcePath: String, targetPath: String): Boolean = {
+    ftpClient.changeWorkingDirectory(sourcePath.substring(0, sourcePath.lastIndexOf(separator)))
+    ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
+    val inputStream = ftpClient.retrieveFileStream(sourcePath.substring(sourcePath.lastIndexOf(separator) + 1))
+    if (null != inputStream) {
+      ftpClient.changeWorkingDirectory(targetPath.substring(0, sourcePath.lastIndexOf(separator)))
+      ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
+      val outputStream = ftpClient.storeFileStream(targetPath.substring(sourcePath.lastIndexOf(separator) + 1))
+      Util.copyStream(inputStream, outputStream)
+      outputStream.flush()
+      true
+    } else {
+      logger.error("Copy dir[" + sourcePath + "] to [" + targetPath + "] error:" + ftpClient.getReplyString)
       false
     }
   }

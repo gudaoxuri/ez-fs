@@ -3,6 +3,8 @@ package com.ecfront.fs.operation
 import java.io.File
 import java.nio.file.{Files, Paths}
 
+import org.apache.commons.io.FileUtils
+
 
 class LocalOperation extends FSOperation {
 
@@ -12,7 +14,7 @@ class LocalOperation extends FSOperation {
   }
 
   override protected def _deleteDir(path: String): Boolean = {
-    Files.delete(Paths.get(path))
+    FileUtils.deleteDirectory(new File(path))
     true
   }
 
@@ -28,6 +30,11 @@ class LocalOperation extends FSOperation {
 
   override protected def _moveFile(sourcePath: String, targetPath: String): Boolean = {
     Files.move(Paths.get(sourcePath), Paths.get(targetPath))
+    true
+  }
+
+  override protected def _copyFile(sourcePath: String, targetPath: String): Boolean = {
+    Files.copy(Paths.get(sourcePath), Paths.get(targetPath))
     true
   }
 
